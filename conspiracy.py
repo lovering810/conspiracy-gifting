@@ -12,7 +12,7 @@ MAILGUN_API_KEY = os.environ.get('MAILGUN_API_KEY', None)
 
 MAX_MEMBERS = 100
 
-SUBJECT_TEMPLATE = '{name} - Conspiracy Santa'
+SUBJECT_TEMPLATE = '{name} - Conspiracy Gifting'
 BODY_TEMPLATE = '''
 Your mission, should you choose to accept it, is to select the most awesome of gift(s) for {name}. The details of the mission are simple:
 
@@ -23,14 +23,12 @@ Your mission, should you choose to accept it, is to select the most awesome of g
   * Thoughtful or meaningful
   * Funny or cutesy
   * Just plain cool
-* Sum price of gift(s) must stay under the decided $$$ amount
-* Once a concensus is met, an appointed member will arrange to get said gift(s)
+* Sum price of gift(s) must stay under $20.
+* Once a concensus is met, an appointed member will arrange to get said gift(s).
 * Be careful not to leak the information to {name}, check which thread you are replying to and the to/cc/bcc addresses before sending!
+* Gifting will happen 12/17, so make sure any online orders are delivered by then.
 
 Good luck!
--Conspiracy Santa
-
-*Powered by [Conspiracy Santa](http://conspiracysanta.com/) and [Zapier](https://zapier.com/).*
 '''
 
 
