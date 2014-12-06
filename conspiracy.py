@@ -5,12 +5,9 @@ import misaka
 
 from bottle import run, get, static_file, route, request, response
 
-MAILGUN_BASE = 'https://api.mailgun.net/v2'
+MAILGUN_URL = os.environ.get('MAILGUN_URL', None)
 MAILGUN_FROM = os.environ.get('MAILGUN_FROM', None)
-MAILGUN_DOMAIN = os.environ.get('MAILGUN_DOMAIN', None)
 MAILGUN_API_KEY = os.environ.get('MAILGUN_API_KEY', None)
-
-MAX_MEMBERS = 100
 
 SUBJECT_TEMPLATE = '{name} - Conspiracy Gifting'
 BODY_TEMPLATE = '''
@@ -31,31 +28,51 @@ Your mission, should you choose to accept it, is to select the most awesome of g
 Good luck!
 '''
 
+members = [
+        [{"name": "Charles", "email": "charles@casecommons.org"},
+          {"name": "Kristin", "email": "kristin@casecommons.org"},
+          {"name": "Nora", "email": "nora@casecommons.org"},
+          {"name": "Brittany", "email": "brittany@casecommons.org"},
+          {"name": "Rebecca", "email": "rebecca@casecommons.org"},
+          {"name": "Nik", "email": "nik@casecommons.org"},
+          {"name": "Yi", "email": "yi@casecommons.org"}],
+         [{"name": "Nishit", "email": "nishit@casecommons.org"},
+          {"name": "Carolina", "email": "carolina@casecommons.org"},
+          {"name": "Liz", "email": "liz@casecommons.org"},
+          {"name": "Crystal", "email": "crystal@casecommons.org"},
+          {"name": "Chistine", "email": "christine@casecommons.org"},
+          {"name": "Michelle", "email": "michelle@casecommons.org"},
+          {"name": "Mike", "email": "mkaminsky@casecommons.org"}],
+         [{"name": "Sarah", "email": "scast@casecommons.org"},
+          {"name": "Heather", "email": "heather@casecommons.org"},
+          {"name": "Kenny", "email": "kenny@casecommons.org"},
+          {"name": "Lily" ,"email": "lily@casecommons.org"},
+          {"name": "Jeronimo", "email": "jeronimo@casecommons.org"},
+          {"name": "Jane", "email": "jane@casecommons.org"},
+          {"name": "Rahul", "email": "rahul@casecommons.org"}],
+         [{"name": "Pierre", "email": "pierre@casecommons.org"},
+          {"name": "Keaty", "email": "keaty@casecommons.org"},
+          {"name": "Suman", "email": "suman@casecommons.org"},
+          {"name": "Jimmy", "email": "jimmy@casecommons.org"},
+          {"name": "Gibby", "email": "gibby@casecommons.org"},
+          {"name": "Lauren", "email": "lauren@casecommons.org"}]
+        ]
 
-@get('/js/<filename:re:.*\.js>')
-def javascripts(filename):
-    return static_file(filename, root='assets/js')
+def get_conspirator():
+    member = {}
+    members = []
 
-@get('/css/<filename:re:.*\.css>')
-def stylesheets(filename):
-    return static_file(filename, root='assets/css')
+    details = input("Enter name, email:")
 
-@get('/img/<filename:re:.*\.(jpg|png|gif|ico)>')
-def images(filename):
-    return static_file(filename, root='assets/img')
+    while details != '':
+        details = details.split(",")
+        member["name"] = member[0]
+        member["email"] = member[1]
+        members.append(member)
+        if details == '':
+            return members
 
-@get('/fonts/<filename:re:.*\.(eot|ttf|woff|svg)>')
-def fonts(filename):
-    return static_file(filename, root='assets/fonts')
-
-
-@route('/')
-def home():
-    return static_file('base.html', root='assets/html')
-
-@route('/api/conspiracy/start', method='POST')
-def start_conspiracy():
-    members = request.json
+def start_conspiracy(members):
 
     # validate the members!
     valid_members = True
@@ -77,7 +94,7 @@ def start_conspiracy():
             'errors': ['Provide some JSON like [{"name": "Joe", "email": "joe@example.com"}]!']
         }
 
-    MAILGUN_ENDPOINT = '{}/{}/messages'.format(MAILGUN_BASE, MAILGUN_DOMAIN)
+    MAILGUN_ENDPOINT = '{}/messages'.format(MAILGUN_URL)
 
     # now email the members!
     for member in members:
@@ -88,7 +105,7 @@ def start_conspiracy():
 
         html = misaka.html(body)
         payload = {
-            'from': 'Conspiracy Santa <{}>'.format(MAILGUN_FROM),
+            'from': 'Conspiracy Gifting HQ <{}>'.format(MAILGUN_FROM),
             'to': to,
             'subject': subject,
             'html': html
@@ -101,7 +118,4 @@ def start_conspiracy():
     }
 
 
-if __name__ == '__main__':
-    run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
 
-app = bottle.default_app()
