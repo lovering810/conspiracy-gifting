@@ -1,0 +1,10 @@
+setup.py
+bin/conspiracycmd
+conspiracygifting/__init__.py
+conspiracygifting/conspiracy.py
+conspiracygifting.egg-info/PKG-INFO
+conspiracygifting.egg-info/SOURCES.txt
+conspiracygifting.egg-info/dependency_links.txt
+conspiracygifting.egg-info/not-zip-safe
+conspiracygifting.egg-info/requires.txt
+conspiracygifting.egg-info/top_level.txt
