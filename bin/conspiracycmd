@@ -1,12 +1,13 @@
 import argparse
 import ast
 import os
+import json
 from conspiracygifting import conspiracy
 
 MAILGUN_URL = os.environ.get('MAILGUN_URL', None)
 MAILGUN_FROM = os.environ.get('MAILGUN_FROM', None)
 MAILGUN_API_KEY = os.environ.get('MAILGUN_API_KEY', None)
-MAILGUN_ENDPOINT = os.environ.get('MAILGUN_ENDPOINT', None)
+MAILGUN_ENDPOINT = '{}/messages'.format(MAILGUN_URL)
 
 SUBJECT_TEMPLATE = '{name} - Conspiracy Gifting'
 BODY_TEMPLATE = '''
@@ -22,7 +23,7 @@ Your mission, should you choose to accept it, is to select the most awesome of g
 * Sum price of gift(s) must stay under $20.
 * Once a concensus is met, ONE appointed member (unless otherwise decided by your team) will arrange to get said gift(s).
 * Be careful not to leak the information to {name}, check which thread you are replying to and the to/cc/bcc addresses before sending!
-* Gifting will happen 12/17, so make sure any online orders are delivered by then.
+* Gifting will happen 1/14, so make sure any online orders are delivered by then.
 
 Good luck!
 '''
@@ -33,7 +34,7 @@ def create_arg_parser():
                                    usage='%(prog)s [options]')
   parser.add_argument('-f', '--filename', help='denote if the input is a filename',
 					  type=str) 
-  parser.add_argument('-l', '--list', help='denote if the input is a filename',
+  parser.add_argument('-l', '--list', help='denote if the input is a filename - must be json',
 					  nargs='+') 
   return parser
 
@@ -44,7 +45,8 @@ def main():
 
   if args.filename:
 	with open(args.filename, 'r') as f:
-	  members = f.readlines()[0].strip()
+	  members = json.load(f)
+	  print members
   elif args.list:
     members = args.list
 	#coerce strings to dicts
@@ -56,7 +58,8 @@ def main():
 											  MAILGUN_ENDPOINT,
 											  SUBJECT_TEMPLATE,
 											  BODY_TEMPLATE)
-  conspirator.validate_members(members)
+  conspirator.get_members(members)
+  conspirator.validate_members()
   conspirator.send_email()
 
 if __name__ == '__main__':
