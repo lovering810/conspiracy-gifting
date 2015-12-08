@@ -86,9 +86,9 @@ class ConspiracyCreator:
 			'subject': subject,
 			'html': html
 		}
-		print payload
-		# response = requests.post(self.mailgun_endpoint, data=payload, auth=('api', self.mailgun_api_key))
-		# response.raise_for_status()
+		# print payload
+		response = requests.post(self.mailgun_endpoint, data=payload, auth=('api', self.mailgun_api_key))
+		response.raise_for_status()
 
 	  # print 'Success'
 	  # return 'Success'

@@ -46,7 +46,7 @@ def main():
   if args.filename:
 	with open(args.filename, 'r') as f:
 	  members = json.load(f)
-	  print members
+	  # print members
   elif args.list:
     members = args.list
 	#coerce strings to dicts
