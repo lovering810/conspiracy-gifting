@@ -72,13 +72,12 @@ class ConspiracyCreator:
   def send_email(self):
 
 	# now email the members!
-	for group in member_groups:
+	for group in self.members:
 	  for member in group:
-		pruned = [m for m in members if m != member]
-		print pruned
+		pruned = [m for m in group if m != member]
 		to = u','.join([m['email'] for m in pruned])
-		subject = self.email_subject.format(**member)
-		body = self.email_body.format(**member)
+		subject = self.subject_template.format(**member)
+		body = self.body_template.format(**member)
 
 		html = misaka.html(body)
 		payload = {
