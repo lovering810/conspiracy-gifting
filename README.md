@@ -26,4 +26,4 @@ conspiracycmd -f list.json
 And that's all there is!
 
 
-* This is a project forked from Conspiracy Santa. I renamed it because I don't particularly celebrate Christmas. Feel free to fork and rename. Just do a find and replace.
+*This is a project forked from Conspiracy Santa. I renamed it because I don't particularly celebrate Christmas. Feel free to fork and rename. Just do a find and replace.
