@@ -30,7 +30,7 @@ class ConspiracyCreator:
 	for i in xrange(0, len(l), n):
 	  yield l[i:i+n]
   
-  def get_members(self, members):
+  def get_members(self, members, per_group):
 	'''Takes members input and processes.
 	The maximum number of members is defined in max_members.
 	'''
@@ -38,7 +38,7 @@ class ConspiracyCreator:
 	  # Check that the number of members is valid
 	  return 'Needs less than ' + self.max_members + ' people in the list.'
 	else:
-	  self.members = list(self.chunk_list(members, 7))
+	  self.members = list(self.chunk_list(members, per_group))
 
   def validate_members(self):
 	'''Takes member groups and checks if each is valid.

@@ -36,6 +36,7 @@ def create_arg_parser():
 					  type=str) 
   parser.add_argument('-l', '--list', help='denote if the input is a filename - must be json',
 					  nargs='+') 
+  parser.add_argument('-n', '--participants_per_group', help='set number of participants per group')
   return parser
 
 def main():
@@ -58,7 +59,7 @@ def main():
 											  MAILGUN_ENDPOINT,
 											  SUBJECT_TEMPLATE,
 											  BODY_TEMPLATE)
-  conspirator.get_members(members)
+  conspirator.get_members(members, args.participants_per_group)
   conspirator.validate_members()
   conspirator.send_email()
 
